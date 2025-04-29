@@ -1,0 +1,164 @@
+[
+    {
+        "id": "fbdf489781e16ccb",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ca93860862232082",
+        "type": "watson-speech-to-text",
+        "z": "fbdf489781e16ccb",
+        "name": "",
+        "alternatives": 1,
+        "speakerlabels": true,
+        "smartformatting": false,
+        "lang": "pt-BR",
+        "langhidden": "pt-BR",
+        "langcustom": "NoCustomisationSetting",
+        "langcustomhidden": "",
+        "custom-weight": "0.5",
+        "band": "BroadbandModel",
+        "bandhidden": "",
+        "keywords": "",
+        "keywords-threshold": "0.5",
+        "word-confidence": false,
+        "password": "",
+        "apikey": "s8f729whXc5ZVHcxBgpiGInO8Tf7T2OxOMfxvBj2m1NH",
+        "payload-response": true,
+        "streaming-mode": false,
+        "streaming-mute": true,
+        "auto-connect": false,
+        "discard-listening": false,
+        "disable-precheck": false,
+        "service-endpoint": "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/02ae7ac2-3e8e-4f51-9a1c-897d6afdb43e",
+        "x": 380,
+        "y": 140,
+        "wires": [
+            [
+                "2d89213cdfcd05f0"
+            ]
+        ]
+    },
+    {
+        "id": "96c20d0a069ba5f3",
+        "type": "telegram receiver",
+        "z": "fbdf489781e16ccb",
+        "name": " @healt_tech_bot",
+        "bot": "4452c53a024e520d",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 80,
+        "y": 260,
+        "wires": [
+            [
+                "46da57b062d99790"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "9616a581730b08bd",
+        "type": "telegram sender",
+        "z": "fbdf489781e16ccb",
+        "name": "",
+        "bot": "4452c53a024e520d",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "46da57b062d99790",
+        "type": "function",
+        "z": "fbdf489781e16ccb",
+        "name": "Proc Entrada Audio",
+        "func": "msg.params = {\n    \"session_id\" :123\n};\nmsg.chatId = msg.payload.chatId;\nmsg.payload = msg.payload.weblink;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 200,
+        "wires": [
+            [
+                "ca93860862232082"
+            ]
+        ]
+    },
+    {
+        "id": "2d89213cdfcd05f0",
+        "type": "watson-assistant-v2",
+        "z": "fbdf489781e16ccb",
+        "name": "",
+        "service-endpoint": "https://api.us-south.assistant.watson.cloud.ibm.com/instances/41896813-3f8c-4ceb-9084-bcee478bc69a",
+        "assistant_id": "b1d7832d-2777-42e8-9f80-ab909514aa23",
+        "debug": false,
+        "restart": false,
+        "return_context": true,
+        "alternate_intents": false,
+        "multisession": true,
+        "timeout": "",
+        "optout-learning": false,
+        "persist-session-id": false,
+        "x": 570,
+        "y": 160,
+        "wires": [
+            [
+                "ef9342012251d059"
+            ]
+        ]
+    },
+    {
+        "id": "ef9342012251d059",
+        "type": "function",
+        "z": "fbdf489781e16ccb",
+        "name": "Proc Saida Watson",
+        "func": "msg.payload = {\n    chatId: msg.chatId,\n    type: \"message\",\n    content: msg.payload.output.generic[0].text\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 220,
+        "wires": [
+            [
+                "9616a581730b08bd"
+            ]
+        ]
+    },
+    {
+        "id": "4452c53a024e520d",
+        "type": "telegram bot",
+        "botname": " healt_tech_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    }
+]
